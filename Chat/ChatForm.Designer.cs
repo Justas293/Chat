@@ -44,6 +44,7 @@
             this.textBoxAddress.Name = "textBoxAddress";
             this.textBoxAddress.Size = new System.Drawing.Size(233, 20);
             this.textBoxAddress.TabIndex = 0;
+            this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAddress_KeyPress);
             // 
             // textBoxChannel
             // 
@@ -51,6 +52,7 @@
             this.textBoxChannel.Name = "textBoxChannel";
             this.textBoxChannel.Size = new System.Drawing.Size(232, 20);
             this.textBoxChannel.TabIndex = 1;
+            this.textBoxChannel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxChannel_KeyPress);
             // 
             // textBoxUsername
             // 
@@ -58,9 +60,11 @@
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(233, 20);
             this.textBoxUsername.TabIndex = 2;
+            this.textBoxUsername.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxUsername_KeyPress);
             // 
             // buttonConnect
             // 
+            this.buttonConnect.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.buttonConnect.Location = new System.Drawing.Point(142, 188);
             this.buttonConnect.Name = "buttonConnect";
@@ -68,7 +72,7 @@
             this.buttonConnect.TabIndex = 3;
             this.buttonConnect.Text = "CONNECT";
             this.buttonConnect.UseVisualStyleBackColor = true;
-            this.buttonConnect.UseWaitCursor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // label1
             // 
@@ -120,9 +124,9 @@
             this.Controls.Add(this.textBoxUsername);
             this.Controls.Add(this.textBoxChannel);
             this.Controls.Add(this.textBoxAddress);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Name = "ChatForm";
             this.Text = "IRC Chat client";
-            this.UseWaitCursor = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

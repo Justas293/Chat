@@ -16,5 +16,10 @@ namespace Chat
         {
             InitializeComponent();
         }
+
+        private void buttonDisconnect_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
