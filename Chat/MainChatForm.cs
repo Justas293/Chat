@@ -14,10 +14,12 @@ namespace Chat
 {
     public partial class MainChatForm : Form
     {
-        IRCClient client;
+
         private int port = 6667;
         private string username, channel;
         private string password = "oauth:740navv2c22dgjoffxwjb3r6w93jer";
+
+        private string messagePrefix;
 
         TcpClient tcpClient;
         StreamReader reader;
@@ -33,7 +35,28 @@ namespace Chat
 
         private void ReadMessages()
         {
+            string sender, msg;
+            var message = reader.ReadLine();
+            if (message.Contains("PRIVMSG"))
+            {
+                sender = message.Split('!')[0];
+                msg = message.Split(':')[2];
+                sender = sender.Substring(1);
+                msg = string.Format("<{0}>: {1}", sender, msg);
+                richTextBoxChat.AppendText(msg + Environment.NewLine);
+            }
+            else
+            {
+                richTextBoxChat.AppendText(message + Environment.NewLine);
+            }
             
+        }
+
+        private void SendMessage(string message)
+        {
+            writer.WriteLine($":{username}!{username}@{username}.tmi.twitch.tv PRIVMSG #{channel} : {message}");
+            writer.Flush();
+            richTextBoxChat.AppendText("<" + username + ">" + ": " + message);
         }
 
         private void Reconnect()
@@ -62,7 +85,8 @@ namespace Chat
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
-            this.Close();
+            writer.WriteLine("QUIT");
+            writer.Flush();
         }
 
         private void richTextBoMessage_KeyPress(object sender, KeyPressEventArgs e)
@@ -79,8 +103,7 @@ namespace Chat
 
             if (tcpClient.Available > 0 || reader.Peek() >= 0)
             {
-                var message = reader.ReadLine();
-                richTextBoxChat.AppendText(message + Environment.NewLine);
+                ReadMessages();
             }
             else if (!joined)
             {
@@ -92,7 +115,8 @@ namespace Chat
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            
+            SendMessage(richTextBoMessage.Text);
+            richTextBoMessage.Clear();
         }
 
         private void richTextBoxChat_TextChanged(object sender, EventArgs e)
@@ -103,6 +127,7 @@ namespace Chat
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
+            //messagePrefix = $":{username}!{username}@{username}.tmi.twitch.tv PRIVMSG #{channel} :";
             Reconnect();
             timer1.Enabled = true;          
         }
