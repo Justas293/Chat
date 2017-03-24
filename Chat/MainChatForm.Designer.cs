@@ -53,6 +53,7 @@
             this.richTextBoMessage.Size = new System.Drawing.Size(366, 79);
             this.richTextBoMessage.TabIndex = 1;
             this.richTextBoMessage.Text = "";
+            this.richTextBoMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBoMessage_KeyPress);
             // 
             // buttonSend
             // 
@@ -62,6 +63,7 @@
             this.buttonSend.TabIndex = 2;
             this.buttonSend.Text = "SEND";
             this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
             // listBoxUsers
             // 

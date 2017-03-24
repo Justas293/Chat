@@ -25,17 +25,19 @@ namespace Chat
             }
         }
 
-        private bool Connect()
+        private IRCClient Connect()
         {
-            return false;
+            IRCClient client = new IRCClient(textBoxAddress.Text, textBoxUsername.Text, textBoxChannel.Text);
+            return client;
         }
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
-            if(Connect() == true)
+            IRCClient client = Connect();
+            if(client != null)
             {
                 this.Hide();
-                MainChatForm mainChat = new MainChatForm();
+                MainChatForm mainChat = new MainChatForm(client);
                 mainChat.ShowDialog();
                 this.Show(); 
             }
