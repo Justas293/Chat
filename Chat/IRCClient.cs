@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Chat
 {
@@ -17,21 +18,34 @@ namespace Chat
         private StreamReader inputStream;
         private StreamWriter outputStream;
 
-        private string username, password, channel;
+        public string userName;
+        private string channel;
+        private string password;
 
         private int port = 6667;
 
-        public IRCClient(string address, string username, string channel, string password = "")
+        public IRCClient(string ip, string username, string channel, string password = "")
         {
-            this.username = username;
-            this.password = password;
+            try
+            {
+                this.userName = username;
+                this.password = password;
 
-            tcpClient = new TcpClient(address, port);
-            inputStream = new StreamReader(tcpClient.GetStream());
-            outputStream = new StreamWriter(tcpClient.GetStream());
+                tcpClient = new TcpClient(ip, port);
+                inputStream = new StreamReader(tcpClient.GetStream());
+                outputStream = new StreamWriter(tcpClient.GetStream());
 
-            Connect();
-            JoinChannel(channel);
+                outputStream.WriteLine("PASS " + password);
+                outputStream.WriteLine("NICK " + username);
+                outputStream.WriteLine("USER " + username + " : " + username);
+                outputStream.WriteLine("JOIN #" + channel);
+                outputStream.Flush();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Failed to connect! ERROR: " + ex.ToString());
+            }
+
         }
 
         private void SendIRCMessage(string message)
@@ -39,7 +53,7 @@ namespace Chat
             outputStream.WriteLine(message);
             outputStream.Flush();
         }
-
+        /*
         private void Connect()
         {
             outputStream.WriteLine("PASS " + password);
@@ -47,7 +61,7 @@ namespace Chat
             outputStream.WriteLine("USER " + username + " : " + username);
             outputStream.Flush();      
         }
-
+        */
         private void JoinChannel(string channel)
         {
             this.channel = channel;

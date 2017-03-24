@@ -35,14 +35,21 @@
             this.buttonWhisper = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
             this.buttonDisconnect = new System.Windows.Forms.Button();
+            this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.textBoxChannel = new System.Windows.Forms.TextBox();
+            this.textBoxUsername = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.buttonConnect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBoxChat
             // 
-            this.richTextBoxChat.Location = new System.Drawing.Point(228, 59);
+            this.richTextBoxChat.Location = new System.Drawing.Point(228, 165);
             this.richTextBoxChat.Name = "richTextBoxChat";
             this.richTextBoxChat.ReadOnly = true;
-            this.richTextBoxChat.Size = new System.Drawing.Size(452, 291);
+            this.richTextBoxChat.Size = new System.Drawing.Size(452, 185);
             this.richTextBoxChat.TabIndex = 0;
             this.richTextBoxChat.Text = "";
             // 
@@ -84,7 +91,7 @@
             // 
             // buttonSettings
             // 
-            this.buttonSettings.Location = new System.Drawing.Point(59, 405);
+            this.buttonSettings.Location = new System.Drawing.Point(575, 18);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(104, 31);
             this.buttonSettings.TabIndex = 5;
@@ -93,7 +100,7 @@
             // 
             // buttonDisconnect
             // 
-            this.buttonDisconnect.Location = new System.Drawing.Point(59, 447);
+            this.buttonDisconnect.Location = new System.Drawing.Point(575, 55);
             this.buttonDisconnect.Name = "buttonDisconnect";
             this.buttonDisconnect.Size = new System.Drawing.Size(103, 28);
             this.buttonDisconnect.TabIndex = 6;
@@ -101,11 +108,75 @@
             this.buttonDisconnect.UseVisualStyleBackColor = true;
             this.buttonDisconnect.Click += new System.EventHandler(this.buttonDisconnect_Click);
             // 
+            // textBoxAddress
+            // 
+            this.textBoxAddress.Location = new System.Drawing.Point(306, 18);
+            this.textBoxAddress.Name = "textBoxAddress";
+            this.textBoxAddress.Size = new System.Drawing.Size(226, 20);
+            this.textBoxAddress.TabIndex = 7;
+            // 
+            // textBoxChannel
+            // 
+            this.textBoxChannel.Location = new System.Drawing.Point(306, 44);
+            this.textBoxChannel.Name = "textBoxChannel";
+            this.textBoxChannel.Size = new System.Drawing.Size(225, 20);
+            this.textBoxChannel.TabIndex = 8;
+            // 
+            // textBoxUsername
+            // 
+            this.textBoxUsername.Location = new System.Drawing.Point(306, 73);
+            this.textBoxUsername.Name = "textBoxUsername";
+            this.textBoxUsername.Size = new System.Drawing.Size(225, 20);
+            this.textBoxUsername.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(259, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Server:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(251, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Channel:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(242, 76);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Username:";
+            // 
+            // buttonConnect
+            // 
+            this.buttonConnect.Location = new System.Drawing.Point(358, 99);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(118, 28);
+            this.buttonConnect.TabIndex = 13;
+            this.buttonConnect.Text = "Connect";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            // 
             // MainChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(733, 490);
+            this.Controls.Add(this.buttonConnect);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBoxUsername);
+            this.Controls.Add(this.textBoxChannel);
+            this.Controls.Add(this.textBoxAddress);
             this.Controls.Add(this.buttonDisconnect);
             this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonWhisper);
@@ -116,6 +187,7 @@
             this.Name = "MainChatForm";
             this.Text = "IRC Chat client";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -128,5 +200,12 @@
         private System.Windows.Forms.Button buttonWhisper;
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Button buttonDisconnect;
+        private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.TextBox textBoxChannel;
+        private System.Windows.Forms.TextBox textBoxUsername;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonConnect;
     }
 }

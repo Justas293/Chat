@@ -16,11 +16,10 @@ namespace Chat
 
         private delegate void ReadMessagesInvoker();
 
-        public MainChatForm(IRCClient client)
+        public MainChatForm()
         {
             InitializeComponent();
-            this.client = client;
-            //client.StartClient();
+            
         }
 
         private void ReadMessages()
