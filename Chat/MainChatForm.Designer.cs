@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.richTextBoxChat = new System.Windows.Forms.RichTextBox();
             this.richTextBoMessage = new System.Windows.Forms.RichTextBox();
             this.buttonSend = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonConnect = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // richTextBoxChat
@@ -52,6 +54,7 @@
             this.richTextBoxChat.Size = new System.Drawing.Size(452, 185);
             this.richTextBoxChat.TabIndex = 0;
             this.richTextBoxChat.Text = "";
+            this.richTextBoxChat.TextChanged += new System.EventHandler(this.richTextBoxChat_TextChanged);
             // 
             // richTextBoMessage
             // 
@@ -164,6 +167,12 @@
             this.buttonConnect.TabIndex = 13;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 500;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // MainChatForm
             // 
@@ -207,5 +216,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonConnect;
+        private System.Windows.Forms.Timer timer1;
     }
 }

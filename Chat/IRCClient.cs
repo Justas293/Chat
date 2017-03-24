@@ -37,7 +37,7 @@ namespace Chat
 
                 outputStream.WriteLine("PASS " + password);
                 outputStream.WriteLine("NICK " + username);
-                outputStream.WriteLine("USER " + username + " : " + username);
+                outputStream.WriteLine("USER " + username + "* 8 * : " + username);
                 outputStream.WriteLine("JOIN #" + channel);
                 outputStream.Flush();
             }
@@ -53,21 +53,6 @@ namespace Chat
             outputStream.WriteLine(message);
             outputStream.Flush();
         }
-        /*
-        private void Connect()
-        {
-            outputStream.WriteLine("PASS " + password);
-            outputStream.WriteLine("NICK " + username);
-            outputStream.WriteLine("USER " + username + " : " + username);
-            outputStream.Flush();      
-        }
-        */
-        private void JoinChannel(string channel)
-        {
-            this.channel = channel;
-            outputStream.WriteLine(string.Format("JOIN #{0}", channel));
-            outputStream.Flush();
-        }
 
         public void SendChatMessage(string message)
         {
@@ -80,8 +65,5 @@ namespace Chat
             return message;
         }
 
-        public void StartClient()
-        {
-        }
     }
 }
