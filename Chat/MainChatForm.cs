@@ -19,7 +19,6 @@ namespace Chat
         private string username, channel;
         private string password = "oauth:740navv2c22dgjoffxwjb3r6w93jer";
 
-        private string messagePrefix;
 
         TcpClient tcpClient;
         StreamReader reader;
@@ -30,33 +29,35 @@ namespace Chat
         public MainChatForm()
         {
             InitializeComponent();
-            textBoxAddress.Text = "irc.twitch.tv";
+            textBoxAddress.Text = "irc.freenode.net";
         }
 
         private void ReadMessages()
         {
             string sender, msg;
             var message = reader.ReadLine();
+            richTextBoxChat.AppendText(message + Environment.NewLine);
             if (message.Contains("PRIVMSG"))
             {
                 sender = message.Split('!')[0];
                 msg = message.Split(':')[2];
                 sender = sender.Substring(1);
                 msg = string.Format("<{0}>: {1}", sender, msg);
-                richTextBoxChat.AppendText(msg + Environment.NewLine);
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine);
             }
             else
             {
-                richTextBoxChat.AppendText(message + Environment.NewLine);
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
             }
             
         }
 
         private void SendMessage(string message)
         {
-            writer.WriteLine($":{username}!{username}@{username}.tmi.twitch.tv PRIVMSG #{channel} : {message}");
+            writer.WriteLine($":{username}!{username}@{username} PRIVMSG #{channel} : {message}");
             writer.Flush();
-            richTextBoxChat.AppendText("<" + username + ">" + ": " + message);
+            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + username + ">" + ": " + message);
+            
         }
 
         private void Reconnect()
