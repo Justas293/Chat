@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
+using Chat;
 
 namespace Chat
 {
@@ -39,7 +40,7 @@ namespace Chat
         {
             string sender, msg;
             var message = reader.ReadLine();
-            richTextBoxChat.AppendText(message + Environment.NewLine);
+            //richTextBoxChat.AppendText(message + Environment.NewLine);
             
             if(message.Contains("@ #"+channel + " :"))
             {
@@ -48,26 +49,36 @@ namespace Chat
                 List<string> userlist = users.Split(' ').ToList();
                 listBoxUsers.DataSource = userlist;
             }
-            /*
-            if (message.Contains("PRIVMSG"))
+
+            if(message.Contains("PRIVMSG " + username + " :"))
             {
                 sender = message.Split('!')[0];
                 msg = message.Split(':')[2];
                 sender = sender.Substring(1);
                 msg = string.Format("<{0}>: {1}", sender, msg);
-                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine);
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Purple);
+            }
+            
+            if (message.Contains("PRIVMSG #" + channel + " :"))
+            {
+                sender = message.Split('!')[0];
+                msg = message.Split(':')[2];
+                sender = sender.Substring(1);
+                msg = string.Format("<{0}>: {1}", sender, msg);
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Black);
             }
             else
             {
-                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
+                //richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
             }
-            */
+            
             
         }
 
         private void SendMessage(string message)
         {
-            writer.WriteLine($":{username}!{username}@{username} PRIVMSG #{channel} : {message}");
+            //writer.WriteLine($":{username}!{username}@{username} PRIVMSG #{channel} : {message}");
+            writer.WriteLine($"PRIVMSG #{channel} : {message}");
             writer.Flush();
             richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + username + ">" + ": " + message);
             
@@ -77,9 +88,6 @@ namespace Chat
         {
             writer.WriteLine("NAMES #" + channel);
             writer.Flush();
-            //string msg = reader.ReadLine();
-            //Debug.WriteLine(((msg.Split(new string[] { $"#{channel} :" }, StringSplitOptions.RemoveEmptyEntries))[1]));
-            //listBoxUsers.ValueMember = ((msg.Split(new string[] { $"#{channel} :" }, StringSplitOptions.RemoveEmptyEntries))[1]);
         }
 
         private void Reconnect()
@@ -142,7 +150,6 @@ namespace Chat
         {
             SendMessage(richTextBoMessage.Text);
             richTextBoMessage.Clear();
-            GetUserList();
         }
 
         private void richTextBoxChat_TextChanged(object sender, EventArgs e)

@@ -48,6 +48,7 @@
             // 
             // richTextBoxChat
             // 
+            this.richTextBoxChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.richTextBoxChat.Location = new System.Drawing.Point(228, 165);
             this.richTextBoxChat.Name = "richTextBoxChat";
             this.richTextBoxChat.ReadOnly = true;
