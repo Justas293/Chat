@@ -9,22 +9,25 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.IO;
+using System.Diagnostics;
 
 namespace Chat
 {
     public partial class MainChatForm : Form
     {
-
+        #region Variables
         private int port = 6667;
         private string username, channel;
+        #region pass
         private string password = "oauth:740navv2c22dgjoffxwjb3r6w93jer";
-
+        #endregion
 
         TcpClient tcpClient;
         StreamReader reader;
         StreamWriter writer;
 
         bool joined;
+        #endregion
 
         public MainChatForm()
         {
@@ -37,6 +40,15 @@ namespace Chat
             string sender, msg;
             var message = reader.ReadLine();
             richTextBoxChat.AppendText(message + Environment.NewLine);
+            
+            if(message.Contains("@ #"+channel + " :"))
+            {
+                string[] delimiter = new string[] { $"@ #{channel} :" };
+                string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
+                List<string> userlist = users.Split(' ').ToList();
+                listBoxUsers.DataSource = userlist;
+            }
+            /*
             if (message.Contains("PRIVMSG"))
             {
                 sender = message.Split('!')[0];
@@ -49,6 +61,7 @@ namespace Chat
             {
                 richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
             }
+            */
             
         }
 
@@ -58,6 +71,15 @@ namespace Chat
             writer.Flush();
             richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + username + ">" + ": " + message);
             
+        }
+
+        private void GetUserList()
+        {
+            writer.WriteLine("NAMES #" + channel);
+            writer.Flush();
+            //string msg = reader.ReadLine();
+            //Debug.WriteLine(((msg.Split(new string[] { $"#{channel} :" }, StringSplitOptions.RemoveEmptyEntries))[1]));
+            //listBoxUsers.ValueMember = ((msg.Split(new string[] { $"#{channel} :" }, StringSplitOptions.RemoveEmptyEntries))[1]);
         }
 
         private void Reconnect()
@@ -105,12 +127,14 @@ namespace Chat
             if (tcpClient.Available > 0 || reader.Peek() >= 0)
             {
                 ReadMessages();
+                
             }
             else if (!joined)
             {
                 writer.WriteLine("JOIN #" + this.channel);
                 writer.Flush();
                 joined = true;
+
             }
         }
 
@@ -118,6 +142,7 @@ namespace Chat
         {
             SendMessage(richTextBoMessage.Text);
             richTextBoMessage.Clear();
+            GetUserList();
         }
 
         private void richTextBoxChat_TextChanged(object sender, EventArgs e)
