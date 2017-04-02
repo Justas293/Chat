@@ -45,6 +45,7 @@
             this.buttonConnect = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSatus = new System.Windows.Forms.Label();
+            this.buttonExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBoxChat
@@ -138,7 +139,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 141);
+            this.label1.Location = new System.Drawing.Point(20, 137);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 10;
@@ -147,7 +148,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 167);
+            this.label2.Location = new System.Drawing.Point(12, 163);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 11;
@@ -185,11 +186,22 @@
             this.labelSatus.TabIndex = 14;
             this.labelSatus.Text = "Status: not connected";
             // 
+            // buttonExit
+            // 
+            this.buttonExit.Location = new System.Drawing.Point(189, 427);
+            this.buttonExit.Name = "buttonExit";
+            this.buttonExit.Size = new System.Drawing.Size(102, 30);
+            this.buttonExit.TabIndex = 15;
+            this.buttonExit.Text = "Exit";
+            this.buttonExit.UseVisualStyleBackColor = true;
+            this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
+            // 
             // MainChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 504);
+            this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.labelSatus);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.label3);
@@ -232,5 +244,6 @@
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelSatus;
+        private System.Windows.Forms.Button buttonExit;
     }
 }
