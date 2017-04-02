@@ -34,7 +34,6 @@
             this.buttonSend = new System.Windows.Forms.Button();
             this.listBoxUsers = new System.Windows.Forms.ListBox();
             this.buttonWhisper = new System.Windows.Forms.Button();
-            this.buttonSettings = new System.Windows.Forms.Button();
             this.buttonDisconnect = new System.Windows.Forms.Button();
             this.textBoxAddress = new System.Windows.Forms.TextBox();
             this.textBoxChannel = new System.Windows.Forms.TextBox();
@@ -46,6 +45,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSatus = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
+            this.buttonChangeUserName = new System.Windows.Forms.Button();
+            this.buttonJoinChannel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBoxChat
@@ -95,15 +96,6 @@
             this.buttonWhisper.Text = "Whisper";
             this.buttonWhisper.UseVisualStyleBackColor = true;
             this.buttonWhisper.Click += new System.EventHandler(this.buttonWhisper_Click);
-            // 
-            // buttonSettings
-            // 
-            this.buttonSettings.Location = new System.Drawing.Point(67, 427);
-            this.buttonSettings.Name = "buttonSettings";
-            this.buttonSettings.Size = new System.Drawing.Size(104, 31);
-            this.buttonSettings.TabIndex = 5;
-            this.buttonSettings.Text = "Settings...";
-            this.buttonSettings.UseVisualStyleBackColor = true;
             // 
             // buttonDisconnect
             // 
@@ -167,7 +159,7 @@
             // 
             this.buttonConnect.Location = new System.Drawing.Point(67, 228);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(118, 28);
+            this.buttonConnect.Size = new System.Drawing.Size(109, 28);
             this.buttonConnect.TabIndex = 13;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -188,19 +180,41 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(189, 427);
+            this.buttonExit.Location = new System.Drawing.Point(88, 419);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(102, 30);
+            this.buttonExit.Size = new System.Drawing.Size(173, 36);
             this.buttonExit.TabIndex = 15;
             this.buttonExit.Text = "Exit";
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
+            // 
+            // buttonChangeUserName
+            // 
+            this.buttonChangeUserName.Location = new System.Drawing.Point(88, 296);
+            this.buttonChangeUserName.Name = "buttonChangeUserName";
+            this.buttonChangeUserName.Size = new System.Drawing.Size(173, 33);
+            this.buttonChangeUserName.TabIndex = 16;
+            this.buttonChangeUserName.Text = "Change username...";
+            this.buttonChangeUserName.UseVisualStyleBackColor = true;
+            this.buttonChangeUserName.Click += new System.EventHandler(this.buttonChangeUserName_Click);
+            // 
+            // buttonJoinChannel
+            // 
+            this.buttonJoinChannel.Location = new System.Drawing.Point(88, 335);
+            this.buttonJoinChannel.Name = "buttonJoinChannel";
+            this.buttonJoinChannel.Size = new System.Drawing.Size(173, 30);
+            this.buttonJoinChannel.TabIndex = 17;
+            this.buttonJoinChannel.Text = "Join channel...";
+            this.buttonJoinChannel.UseVisualStyleBackColor = true;
+            this.buttonJoinChannel.Click += new System.EventHandler(this.buttonJoinChannel_Click);
             // 
             // MainChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 504);
+            this.Controls.Add(this.buttonJoinChannel);
+            this.Controls.Add(this.buttonChangeUserName);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.labelSatus);
             this.Controls.Add(this.buttonConnect);
@@ -211,7 +225,6 @@
             this.Controls.Add(this.textBoxChannel);
             this.Controls.Add(this.textBoxAddress);
             this.Controls.Add(this.buttonDisconnect);
-            this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonWhisper);
             this.Controls.Add(this.listBoxUsers);
             this.Controls.Add(this.buttonSend);
@@ -233,7 +246,6 @@
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.ListBox listBoxUsers;
         private System.Windows.Forms.Button buttonWhisper;
-        private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Button buttonDisconnect;
         private System.Windows.Forms.TextBox textBoxAddress;
         private System.Windows.Forms.TextBox textBoxChannel;
@@ -245,5 +257,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelSatus;
         private System.Windows.Forms.Button buttonExit;
+        private System.Windows.Forms.Button buttonChangeUserName;
+        private System.Windows.Forms.Button buttonJoinChannel;
     }
 }
