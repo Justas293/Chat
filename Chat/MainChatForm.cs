@@ -45,6 +45,7 @@ namespace Chat
             {
                 while((message = await client.ReadMessage()) != null)
                 {
+                    richTextBoxChat.AppendText(message + Environment.NewLine);
                     if (message.Contains("@ #" + client.channel + " :"))
                     {
                         string[] delimiter = new string[] { $"@ #{client.channel} :" };
@@ -53,7 +54,7 @@ namespace Chat
                         listBoxUsers.DataSource = userlist;
                     }
 
-                    if (message.Contains("PRIVMSG " + client.userName + " :"))
+                    else if (message.Contains("PRIVMSG " + client.userName + " :"))
                     {
                         sender = message.Split('!')[0];
                         msg = message.Split(':')[2];
@@ -62,7 +63,7 @@ namespace Chat
                         richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Purple);
                     }
 
-                    if (message.Contains("PRIVMSG #" + client.channel + " :"))
+                    else if (message.Contains("PRIVMSG #" + client.channel + " :"))
                     {
                         sender = message.Split('!')[0];
                         msg = message.Split(':')[2];
@@ -152,6 +153,19 @@ namespace Chat
                 client.JoinChannel(textBoxChannel.Text);
             }
             var c = Runchat();
+        }
+
+        private void buttonWhisper_Click(object sender, EventArgs e)
+        {
+            
+            WhisperChat privateChat = new WhisperChat(client, listBoxUsers.SelectedItem.ToString());
+            Thread t = new Thread(() => privateChat.ShowDialog());
+            t.Start();
+        }
+
+        private void MainChatForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            client.Disconnect();
         }
     }
 }

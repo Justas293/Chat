@@ -106,6 +106,11 @@ namespace Chat
 
         }
 
+        public void SendPrivateMessage(string username, string message)
+        {
+            SendIRCMessage(string.Format("PRIVMSG {0} :{1}", username, message));
+        }
+
         public Task<string> ReadMessage()
         {
             return reader.ReadLineAsync();

@@ -92,6 +92,7 @@
             this.buttonWhisper.TabIndex = 4;
             this.buttonWhisper.Text = "Whisper";
             this.buttonWhisper.UseVisualStyleBackColor = true;
+            this.buttonWhisper.Click += new System.EventHandler(this.buttonWhisper_Click);
             // 
             // buttonSettings
             // 
@@ -195,6 +196,7 @@
             this.Controls.Add(this.richTextBoxChat);
             this.Name = "MainChatForm";
             this.Text = "IRC Chat client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainChatForm_FormClosing);
             this.Load += new System.EventHandler(this.MainChatForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
