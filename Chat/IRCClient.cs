@@ -123,5 +123,11 @@ namespace Chat
             return reader2.ReadLine();
         }
 
+        public void GetNames()
+        {
+            writer.WriteLine("NAMES #" + this.channel);
+            writer.Flush();
+        }
+
     }
 }

@@ -45,7 +45,7 @@ namespace Chat
         {
             Invoke(new Action(() =>
             {
-                tb.AppendText(Environment.NewLine + "[" + DateTime.Now.ToString("hh:mm") + "]" + "<To " + this.userName + ">" + ": " + message + Environment.NewLine, Color.Blue);
+                tb.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<To " + this.userName + ">" + ": " + message + Environment.NewLine, Color.Blue);
             }));
             client.SendPrivateMessage(this.userName, message);
             

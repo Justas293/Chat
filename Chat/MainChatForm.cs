@@ -23,6 +23,7 @@ namespace Chat
         #endregion
 
         IRCClient client;
+        List<string> userlist;
         #endregion
 
         public MainChatForm()
@@ -45,15 +46,19 @@ namespace Chat
             {
                 while((message = await client.ReadMessageAsync()) != null)
                 {
-                    richTextBoxChat.AppendText(message + Environment.NewLine);
+                    //richTextBoxChat.AppendText(message + Environment.NewLine);
                     if (message.Contains("@ #" + client.channel + " :"))
                     {
                         string[] delimiter = new string[] { $"@ #{client.channel} :" };
                         string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
-                        List<string> userlist = users.Split(' ').ToList();
+                        userlist = users.Split(' ').ToList();
                         listBoxUsers.DataSource = userlist;
+                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Connected!" + Environment.NewLine);
                     }
-
+                    if (message.Contains("JOIN") || message.Contains("QUIT"))
+                    {
+                        client.GetNames();
+                    }
                     else if (message.Contains("PRIVMSG " + client.userName + " :"))
                     {
                         sender = message.Split('!')[0];
@@ -71,10 +76,6 @@ namespace Chat
                         msg = string.Format("<{0}>: {1}", sender, msg);
                         richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Black);
                     }
-                    else
-                    {
-                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
-                    }
                 }
             }
             catch
@@ -86,7 +87,7 @@ namespace Chat
         private void SendMessage(string message)
         {
             client.SendChatMessage(richTextBoMessage.Text);
-            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + client.userName + ">" + ": " + message);
+            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + client.userName + ">" + ": " + message + Environment.NewLine);
         }
 
         private void GetUserList()
@@ -107,6 +108,7 @@ namespace Chat
         {
             if (e.KeyChar == (char)13)
             {
+                richTextBoMessage.Text = richTextBoMessage.Text.Substring(0, (richTextBoMessage.Text.Length - 1));
                 buttonSend.PerformClick();
             }
         }
@@ -115,8 +117,14 @@ namespace Chat
         {
             if (client.Connected)
             {
+                listBoxUsers.DataSource = null;
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Disconnected!" + Environment.NewLine);
                 client.Disconnect();
-            }            
+            }
+            else
+            {
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "You are not connected yet!" + Environment.NewLine);
+            }        
         }
 
         private void richTextBoMessage_KeyPress(object sender, KeyPressEventArgs e)
@@ -143,6 +151,7 @@ namespace Chat
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
+            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Connecting..." + Environment.NewLine);
             if (client.Connected)
             {
                 client.Disconnect();
@@ -152,6 +161,7 @@ namespace Chat
             {
                 client.JoinChannel(textBoxChannel.Text);
             }
+            client.GetNames();
             var c = Runchat();
         }
 
