@@ -43,7 +43,7 @@ namespace Chat
             string sender;
             try
             {
-                while((message = await client.ReadMessage()) != null)
+                while((message = await client.ReadMessageAsync()) != null)
                 {
                     richTextBoxChat.AppendText(message + Environment.NewLine);
                     if (message.Contains("@ #" + client.channel + " :"))
@@ -158,14 +158,18 @@ namespace Chat
         private void buttonWhisper_Click(object sender, EventArgs e)
         {
             
-            WhisperChat privateChat = new WhisperChat(client, listBoxUsers.SelectedItem.ToString());
+            WhisperChat privateChat = new WhisperChat(client, listBoxUsers.SelectedItem.ToString(), this.richTextBoxChat);
             Thread t = new Thread(() => privateChat.ShowDialog());
             t.Start();
         }
 
         private void MainChatForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            client.Disconnect();
+            if (client.Connected)
+            {
+                client.Disconnect();
+            }
+            
         }
     }
 }

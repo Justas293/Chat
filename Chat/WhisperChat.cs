@@ -14,17 +14,19 @@ namespace Chat
     {
         private string userName;
         private IRCClient client;
-        public WhisperChat(IRCClient client, string username)
+        private RichTextBox tb;
+
+        public WhisperChat(IRCClient client, string username, RichTextBox tb)
         {
             InitializeComponent();
             this.userName = username;
             this.client = client;
+            this.tb = tb;
         }
 
         private void WhisperChat_Load(object sender, EventArgs e)
         {
             this.Text = "Chat with " + userName;
-            var c = Runchat();
         }
 
         private void WhisperChat_FormClosing(object sender, FormClosingEventArgs e)
@@ -36,33 +38,17 @@ namespace Chat
         {
             SendMessage(richTextBoxWhisperMessage.Text);
             richTextBoxWhisperMessage.Clear();
+            this.Dispose();
         }
 
         private void SendMessage(string message)
         {
+            Invoke(new Action(() =>
+            {
+                tb.AppendText(Environment.NewLine + "[" + DateTime.Now.ToString("hh:mm") + "]" + "<To " + this.userName + ">" + ": " + message + Environment.NewLine, Color.Blue);
+            }));
             client.SendPrivateMessage(this.userName, message);
-            richTextBoxPrivateChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + client.userName + ">" + ": " + message);
-        }
-
-        private async Task Runchat()
-        {
-            string message, msg;
-            try
-            {
-                while ((message = await client.ReadMessage()) != null)
-                {
-                    if (message.StartsWith(":" + this.userName) && message.Contains("PRIVMSG " + client.userName + " :"))
-                    {
-                        msg = message.Split(':')[2];
-                        msg = string.Format("<{0}>: {1}", this.userName, msg);
-                        richTextBoxPrivateChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Purple);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            
         }
     }
 }

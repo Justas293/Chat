@@ -28,44 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.richTextBoxWhisperMessage = new System.Windows.Forms.RichTextBox();
             this.buttonWhisperSend = new System.Windows.Forms.Button();
-            this.richTextBoxPrivateChat = new System.Windows.Forms.RichTextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // richTextBoxWhisperMessage
             // 
-            this.richTextBoxWhisperMessage.Location = new System.Drawing.Point(12, 290);
+            this.richTextBoxWhisperMessage.Location = new System.Drawing.Point(12, 3);
             this.richTextBoxWhisperMessage.Name = "richTextBoxWhisperMessage";
-            this.richTextBoxWhisperMessage.Size = new System.Drawing.Size(316, 115);
+            this.richTextBoxWhisperMessage.Size = new System.Drawing.Size(373, 115);
             this.richTextBoxWhisperMessage.TabIndex = 0;
             this.richTextBoxWhisperMessage.Text = "";
+            
             // 
             // buttonWhisperSend
             // 
-            this.buttonWhisperSend.Location = new System.Drawing.Point(334, 290);
+            this.buttonWhisperSend.Location = new System.Drawing.Point(135, 124);
             this.buttonWhisperSend.Name = "buttonWhisperSend";
-            this.buttonWhisperSend.Size = new System.Drawing.Size(84, 43);
+            this.buttonWhisperSend.Size = new System.Drawing.Size(130, 43);
             this.buttonWhisperSend.TabIndex = 1;
             this.buttonWhisperSend.Text = "Send";
             this.buttonWhisperSend.UseVisualStyleBackColor = true;
             this.buttonWhisperSend.Click += new System.EventHandler(this.buttonWhisperSend_Click);
             // 
-            // richTextBoxPrivateChat
-            // 
-            this.richTextBoxPrivateChat.Location = new System.Drawing.Point(12, 9);
-            this.richTextBoxPrivateChat.Name = "richTextBoxPrivateChat";
-            this.richTextBoxPrivateChat.ReadOnly = true;
-            this.richTextBoxPrivateChat.Size = new System.Drawing.Size(406, 275);
-            this.richTextBoxPrivateChat.TabIndex = 2;
-            this.richTextBoxPrivateChat.Text = "";
-            // 
             // WhisperChat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 417);
-            this.Controls.Add(this.richTextBoxPrivateChat);
+            this.ClientSize = new System.Drawing.Size(397, 174);
             this.Controls.Add(this.buttonWhisperSend);
             this.Controls.Add(this.richTextBoxWhisperMessage);
             this.Name = "WhisperChat";
@@ -80,6 +72,6 @@
 
         private System.Windows.Forms.RichTextBox richTextBoxWhisperMessage;
         private System.Windows.Forms.Button buttonWhisperSend;
-        private System.Windows.Forms.RichTextBox richTextBoxPrivateChat;
+        private System.Windows.Forms.Timer timer1;
     }
 }

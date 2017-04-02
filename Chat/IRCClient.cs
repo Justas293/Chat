@@ -15,6 +15,7 @@ namespace Chat
     {
         private TcpClient tcpClient;
         private StreamReader reader;
+        private StreamReader reader2;
         private StreamWriter writer;
 
         public string userName { get; set; }
@@ -41,6 +42,7 @@ namespace Chat
 
                 tcpClient = new TcpClient(ip, port);
                 reader = new StreamReader(tcpClient.GetStream());
+                reader2 = new StreamReader(tcpClient.GetStream());
                 writer = new StreamWriter(tcpClient.GetStream());
 
                 writer.WriteLine("PASS " + this.password + Environment.NewLine +
@@ -111,9 +113,14 @@ namespace Chat
             SendIRCMessage(string.Format("PRIVMSG {0} :{1}", username, message));
         }
 
-        public Task<string> ReadMessage()
+        public Task<string> ReadMessageAsync()
         {
             return reader.ReadLineAsync();
+        }
+
+        public string ReadMessage()
+        {
+            return reader2.ReadLine();
         }
 
     }
