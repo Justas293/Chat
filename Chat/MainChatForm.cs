@@ -46,7 +46,7 @@ namespace Chat
             {
                 while((message = await client.ReadMessageAsync()) != null)
                 {
-                    richTextBoxChat.AppendText(message + Environment.NewLine);
+                    //richTextBoxChat.AppendText(message + Environment.NewLine);
                     if (message.Contains("@ #" + client.channel + " :"))
                     {
                         string[] delimiter = new string[] { $"@ #{client.channel} :" };
@@ -54,6 +54,11 @@ namespace Chat
                         userlist = users.Split(' ').ToList();
                         listBoxUsers.DataSource = userlist;
                         labelSatus.Text = "Status: connected";
+                    }
+                    if(message.Contains("Nickname is already in use"))
+                    {
+                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Nickname is already in use!" + Environment.NewLine, Color.Red);
+                        client.Disconnect();
                     }
                     if (message.Contains("JOIN") || message.Contains("QUIT") || message.Contains("NICK") || message.Contains("ERROR"))
                     {
@@ -82,9 +87,9 @@ namespace Chat
                     }
                 }
             }
-            catch
+            catch(Exception exs)
             {
-
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Chat stopped working" + Environment.NewLine, Color.Red);
             }
         }
 
@@ -144,8 +149,16 @@ namespace Chat
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            SendMessage(richTextBoMessage.Text);
-            richTextBoMessage.Clear();
+            if(labelSatus.Text == "Status: connected")
+            {
+                SendMessage(richTextBoMessage.Text);
+                richTextBoMessage.Clear();
+            }
+            else
+            {
+                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "You are not connected yet!" + Environment.NewLine);
+            }
+            
         }
 
         private void richTextBoxChat_TextChanged(object sender, EventArgs e)
@@ -204,6 +217,14 @@ namespace Chat
                 string value = client.userName;
                 if (InputBox("New Username", "Enter new username:", ref value) == DialogResult.OK)
                 {
+                   foreach (var nickname in userlist)
+                    {
+                        if(value == nickname)
+                        {
+                            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Nickname is already in use!" + Environment.NewLine, Color.Red);
+                            return;
+                        }
+                    }
                    client.ChangeUserName(value);
                    textBoxUsername.Text = client.userName;
                 }

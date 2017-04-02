@@ -109,7 +109,7 @@ namespace Chat
 
         public void ChangeUserName(string username)
         {
-            this.userName = userName;
+            this.userName = username;
             writer.WriteLine("NICK " + username);
             writer.Flush();
         }
