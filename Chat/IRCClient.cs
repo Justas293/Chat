@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
@@ -15,16 +14,25 @@ namespace Chat
     public class IRCClient
     {
         private TcpClient tcpClient;
-        private StreamReader inputStream;
-        private StreamWriter outputStream;
+        private StreamReader reader;
+        private StreamWriter writer;
 
-        public string userName;
-        private string channel;
+        public string userName { get; set; }
+        public string channel { get; set; }
         private string password;
+
+        public bool Connected { get; set; }
+        public bool Joined { get; set; }
 
         private int port = 6667;
 
-        public IRCClient(string ip, string username, string channel, string password = "")
+        public IRCClient()
+        {
+            Connected = false;
+            Joined = false;
+        }
+
+        public void Connect(string ip, string username, string password = "")
         {
             try
             {
@@ -32,37 +40,75 @@ namespace Chat
                 this.password = password;
 
                 tcpClient = new TcpClient(ip, port);
-                inputStream = new StreamReader(tcpClient.GetStream());
-                outputStream = new StreamWriter(tcpClient.GetStream());
+                reader = new StreamReader(tcpClient.GetStream());
+                writer = new StreamWriter(tcpClient.GetStream());
 
-                outputStream.WriteLine("PASS " + password);
-                outputStream.WriteLine("NICK " + username);
-                outputStream.WriteLine("USER " + username + "* 8 * : " + username);
-                outputStream.WriteLine("JOIN #" + channel);
-                outputStream.Flush();
+                writer.WriteLine("PASS " + this.password + Environment.NewLine +
+                             "USER " + this.userName + " 8 * :" + this.userName + Environment.NewLine +
+                             "NICK " + this.userName);
+                writer.Flush();
+                Connected = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Failed to connect! ERROR: " + ex.ToString());
             }
+        }
 
+        public void Disconnect()
+        {
+            writer.WriteLine("QUIT");
+            writer.Flush();
+            Connected = false;
+            Joined = false;
+        }
+
+        public void LeaveChannel()
+        {
+            if (Joined)
+            {
+                writer.WriteLine("QUIT #" + this.channel);
+                writer.Flush();
+                Joined = false;
+            }
+        }
+
+        public void JoinChannel(string channel)
+        {
+            if (Joined)
+            {
+                LeaveChannel();
+            }
+            this.channel = channel;
+            writer.WriteLine("JOIN #" + this.channel);
+            writer.Flush();
+            Joined = true;
+        }
+
+        public void ChangeChannel(string channel)
+        {
+            JoinChannel(channel);
         }
 
         private void SendIRCMessage(string message)
         {
-            outputStream.WriteLine(message);
-            outputStream.Flush();
+            writer.WriteLine(message);
+            writer.Flush();
         }
 
         public void SendChatMessage(string message)
         {
-            SendIRCMessage(string.Format("PRIVMSG {0} :{1}", channel, message));
+            SendIRCMessage(string.Format("PRIVMSG #{0} :{1}", channel, message));
         }
 
-        public string ReadMessage()
+        public void ChangeUserName(string username)
         {
-            string message = inputStream.ReadLine();
-            return message;
+
+        }
+
+        public Task<string> ReadMessage()
+        {
+            return reader.ReadLineAsync();
         }
 
     }

@@ -195,6 +195,7 @@
             this.Controls.Add(this.richTextBoxChat);
             this.Name = "MainChatForm";
             this.Text = "IRC Chat client";
+            this.Load += new System.EventHandler(this.MainChatForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

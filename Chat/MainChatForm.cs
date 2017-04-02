@@ -11,99 +11,95 @@ using System.Net.Sockets;
 using System.IO;
 using System.Diagnostics;
 using Chat;
+using System.Threading.Tasks;
 
 namespace Chat
 {
     public partial class MainChatForm : Form
     {
         #region Variables
-        private int port = 6667;
-        private string username, channel;
         #region pass
         private string password = "oauth:740navv2c22dgjoffxwjb3r6w93jer";
         #endregion
 
-        TcpClient tcpClient;
-        StreamReader reader;
-        StreamWriter writer;
-
-        bool joined;
+        IRCClient client;
         #endregion
 
         public MainChatForm()
         {
             InitializeComponent();
-            textBoxAddress.Text = "irc.freenode.net";
+            
         }
 
-        private void ReadMessages()
+        private void MainChatForm_Load(object sender, EventArgs e)
         {
-            string sender, msg;
-            var message = reader.ReadLine();
-            //richTextBoxChat.AppendText(message + Environment.NewLine);
-            
-            if(message.Contains("@ #"+channel + " :"))
-            {
-                string[] delimiter = new string[] { $"@ #{channel} :" };
-                string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
-                List<string> userlist = users.Split(' ').ToList();
-                listBoxUsers.DataSource = userlist;
-            }
+            textBoxAddress.Text = "irc.freenode.net";
+            client = new IRCClient();
+        }
 
-            if(message.Contains("PRIVMSG " + username + " :"))
+        private async Task Runchat()
+        {
+            string message, msg;
+            string sender;
+            try
             {
-                sender = message.Split('!')[0];
-                msg = message.Split(':')[2];
-                sender = sender.Substring(1);
-                msg = string.Format("<{0}>: {1}", sender, msg);
-                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Purple);
+                while((message = await client.ReadMessage()) != null)
+                {
+                    if (message.Contains("@ #" + client.channel + " :"))
+                    {
+                        string[] delimiter = new string[] { $"@ #{client.channel} :" };
+                        string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
+                        List<string> userlist = users.Split(' ').ToList();
+                        listBoxUsers.DataSource = userlist;
+                    }
+
+                    if (message.Contains("PRIVMSG " + client.userName + " :"))
+                    {
+                        sender = message.Split('!')[0];
+                        msg = message.Split(':')[2];
+                        sender = sender.Substring(1);
+                        msg = string.Format("<{0}>: {1}", sender, msg);
+                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Purple);
+                    }
+
+                    if (message.Contains("PRIVMSG #" + client.channel + " :"))
+                    {
+                        sender = message.Split('!')[0];
+                        msg = message.Split(':')[2];
+                        sender = sender.Substring(1);
+                        msg = string.Format("<{0}>: {1}", sender, msg);
+                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Black);
+                    }
+                    else
+                    {
+                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
+                    }
+                }
             }
-            
-            if (message.Contains("PRIVMSG #" + channel + " :"))
+            catch
             {
-                sender = message.Split('!')[0];
-                msg = message.Split(':')[2];
-                sender = sender.Substring(1);
-                msg = string.Format("<{0}>: {1}", sender, msg);
-                richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + msg + Environment.NewLine, Color.Black);
+
             }
-            else
-            {
-                //richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + message + Environment.NewLine);
-            }
-            
-            
         }
 
         private void SendMessage(string message)
         {
-            //writer.WriteLine($":{username}!{username}@{username} PRIVMSG #{channel} : {message}");
-            writer.WriteLine($"PRIVMSG #{channel} : {message}");
-            writer.Flush();
-            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + username + ">" + ": " + message);
-            
+            client.SendChatMessage(richTextBoMessage.Text);
+            richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + client.userName + ">" + ": " + message);
         }
 
         private void GetUserList()
         {
-            writer.WriteLine("NAMES #" + channel);
-            writer.Flush();
+            //writer.WriteLine("NAMES #" + channel);
+            //writer.Flush();
         }
 
         private void Reconnect()
         {
-            tcpClient = new TcpClient(textBoxAddress.Text, port);
-            reader = new StreamReader(tcpClient.GetStream());
-            writer = new StreamWriter(tcpClient.GetStream());
-
-            this.username = textBoxUsername.Text;
-            this.channel = textBoxChannel.Text;
-
-            writer.WriteLine("PASS " + this.password + Environment.NewLine +
-                             "USER " + this.username + " 8 * :" + this.username + Environment.NewLine + 
-                             "NICK " + this.username);
-            writer.Flush();
-            joined = false;
+            if (!client.Connected)
+            {
+                client.Connect(textBoxAddress.Text, textBoxUsername.Text, password);
+            }
         }
 
         private void CheckForEnter(KeyPressEventArgs e)
@@ -116,8 +112,10 @@ namespace Chat
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
-            writer.WriteLine("QUIT");
-            writer.Flush();
+            if (client.Connected)
+            {
+                client.Disconnect();
+            }            
         }
 
         private void richTextBoMessage_KeyPress(object sender, KeyPressEventArgs e)
@@ -127,23 +125,7 @@ namespace Chat
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (!tcpClient.Connected)
-            {
-                Reconnect();
-            }
 
-            if (tcpClient.Available > 0 || reader.Peek() >= 0)
-            {
-                ReadMessages();
-                
-            }
-            else if (!joined)
-            {
-                writer.WriteLine("JOIN #" + this.channel);
-                writer.Flush();
-                joined = true;
-
-            }
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
@@ -160,9 +142,16 @@ namespace Chat
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
-            //messagePrefix = $":{username}!{username}@{username}.tmi.twitch.tv PRIVMSG #{channel} :";
-            Reconnect();
-            timer1.Enabled = true;          
+            if (client.Connected)
+            {
+                client.Disconnect();
+            }
+            client.Connect(textBoxAddress.Text, textBoxUsername.Text, password);
+            while (!client.Joined)
+            {
+                client.JoinChannel(textBoxChannel.Text);
+            }
+            var c = Runchat();
         }
     }
 }
