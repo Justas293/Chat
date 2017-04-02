@@ -57,6 +57,7 @@ namespace Chat
 
         public void Disconnect()
         {
+            LeaveChannel();
             writer.WriteLine("QUIT");
             writer.Flush();
             Connected = false;
@@ -67,22 +68,27 @@ namespace Chat
         {
             if (Joined)
             {
-                writer.WriteLine("QUIT #" + this.channel);
+                writer.WriteLine("JOIN 0");
                 writer.Flush();
                 Joined = false;
             }
         }
-
+        
         public void JoinChannel(string channel)
         {
+            this.channel = channel;
             if (Joined)
             {
                 LeaveChannel();
             }
+            if (Connected)
+            {
             this.channel = channel;
-            writer.WriteLine("JOIN #" + this.channel);
-            writer.Flush();
-            Joined = true;
+                writer.WriteLine("JOIN #" + this.channel);
+                writer.Flush();
+                Joined = true;
+            }
+            
         }
 
         public void ChangeChannel(string channel)

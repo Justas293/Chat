@@ -55,7 +55,7 @@ namespace Chat
                         listBoxUsers.DataSource = userlist;
                         labelSatus.Text = "Status: connected";
                     }
-                    if (message.Contains("JOIN") || message.Contains("QUIT") || message.Contains("NICK"))
+                    if (message.Contains("JOIN") || message.Contains("QUIT") || message.Contains("NICK") || message.Contains("ERROR"))
                     {
                         client.GetNames();
                     }
@@ -163,7 +163,7 @@ namespace Chat
                 client.Disconnect();
             }
             client.Connect(textBoxAddress.Text, textBoxUsername.Text, password);
-            while (!client.Joined)
+            while (!client.Joined && client.Connected)
             {
                 client.JoinChannel(textBoxChannel.Text);
             }
@@ -174,10 +174,13 @@ namespace Chat
 
         private void buttonWhisper_Click(object sender, EventArgs e)
         {
+            if(listBoxUsers.DataSource != null)
+            {
+                WhisperChat privateChat = new WhisperChat(client, listBoxUsers.SelectedItem.ToString(), this.richTextBoxChat);
+                Thread t = new Thread(() => privateChat.ShowDialog());
+                t.Start();
+            }
             
-            WhisperChat privateChat = new WhisperChat(client, listBoxUsers.SelectedItem.ToString(), this.richTextBoxChat);
-            Thread t = new Thread(() => privateChat.ShowDialog());
-            t.Start();
         }
 
         private void MainChatForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -216,10 +219,10 @@ namespace Chat
         {
             if (client.Connected)
             {
-                string value = client.userName;
+                string value = client.channel;
                 if (InputBox("New channel", "Enter new channel:", ref value) == DialogResult.OK)
                 {
-                    client.JoinChannel(value);
+                    client.ChangeChannel(value);
                     textBoxChannel.Text = client.channel;
                 }
             }
