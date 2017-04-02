@@ -44,33 +44,34 @@
             this.label3 = new System.Windows.Forms.Label();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labelSatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // richTextBoxChat
             // 
             this.richTextBoxChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
-            this.richTextBoxChat.Location = new System.Drawing.Point(228, 165);
+            this.richTextBoxChat.Location = new System.Drawing.Point(327, 18);
             this.richTextBoxChat.Name = "richTextBoxChat";
             this.richTextBoxChat.ReadOnly = true;
-            this.richTextBoxChat.Size = new System.Drawing.Size(452, 185);
+            this.richTextBoxChat.Size = new System.Drawing.Size(455, 347);
             this.richTextBoxChat.TabIndex = 0;
             this.richTextBoxChat.Text = "";
             this.richTextBoxChat.TextChanged += new System.EventHandler(this.richTextBoxChat_TextChanged);
             // 
             // richTextBoMessage
             // 
-            this.richTextBoMessage.Location = new System.Drawing.Point(229, 371);
+            this.richTextBoMessage.Location = new System.Drawing.Point(327, 372);
             this.richTextBoMessage.Name = "richTextBoMessage";
-            this.richTextBoMessage.Size = new System.Drawing.Size(366, 79);
+            this.richTextBoMessage.Size = new System.Drawing.Size(366, 86);
             this.richTextBoMessage.TabIndex = 1;
             this.richTextBoMessage.Text = "";
             this.richTextBoMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBoMessage_KeyPress);
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(601, 371);
+            this.buttonSend.Location = new System.Drawing.Point(704, 372);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(78, 78);
+            this.buttonSend.Size = new System.Drawing.Size(78, 86);
             this.buttonSend.TabIndex = 2;
             this.buttonSend.Text = "SEND";
             this.buttonSend.UseVisualStyleBackColor = true;
@@ -79,16 +80,16 @@
             // listBoxUsers
             // 
             this.listBoxUsers.FormattingEnabled = true;
-            this.listBoxUsers.Location = new System.Drawing.Point(30, 59);
+            this.listBoxUsers.Location = new System.Drawing.Point(788, 18);
             this.listBoxUsers.Name = "listBoxUsers";
-            this.listBoxUsers.Size = new System.Drawing.Size(175, 290);
+            this.listBoxUsers.Size = new System.Drawing.Size(160, 407);
             this.listBoxUsers.TabIndex = 3;
             // 
             // buttonWhisper
             // 
-            this.buttonWhisper.Location = new System.Drawing.Point(30, 355);
+            this.buttonWhisper.Location = new System.Drawing.Point(788, 427);
             this.buttonWhisper.Name = "buttonWhisper";
-            this.buttonWhisper.Size = new System.Drawing.Size(175, 28);
+            this.buttonWhisper.Size = new System.Drawing.Size(160, 28);
             this.buttonWhisper.TabIndex = 4;
             this.buttonWhisper.Text = "Whisper";
             this.buttonWhisper.UseVisualStyleBackColor = true;
@@ -96,7 +97,7 @@
             // 
             // buttonSettings
             // 
-            this.buttonSettings.Location = new System.Drawing.Point(575, 18);
+            this.buttonSettings.Location = new System.Drawing.Point(67, 427);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(104, 31);
             this.buttonSettings.TabIndex = 5;
@@ -105,7 +106,7 @@
             // 
             // buttonDisconnect
             // 
-            this.buttonDisconnect.Location = new System.Drawing.Point(575, 55);
+            this.buttonDisconnect.Location = new System.Drawing.Point(189, 228);
             this.buttonDisconnect.Name = "buttonDisconnect";
             this.buttonDisconnect.Size = new System.Drawing.Size(103, 28);
             this.buttonDisconnect.TabIndex = 6;
@@ -115,21 +116,21 @@
             // 
             // textBoxAddress
             // 
-            this.textBoxAddress.Location = new System.Drawing.Point(306, 18);
+            this.textBoxAddress.Location = new System.Drawing.Point(67, 134);
             this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(226, 20);
+            this.textBoxAddress.Size = new System.Drawing.Size(225, 20);
             this.textBoxAddress.TabIndex = 7;
             // 
             // textBoxChannel
             // 
-            this.textBoxChannel.Location = new System.Drawing.Point(306, 44);
+            this.textBoxChannel.Location = new System.Drawing.Point(67, 160);
             this.textBoxChannel.Name = "textBoxChannel";
             this.textBoxChannel.Size = new System.Drawing.Size(225, 20);
             this.textBoxChannel.TabIndex = 8;
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(306, 73);
+            this.textBoxUsername.Location = new System.Drawing.Point(67, 186);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(225, 20);
             this.textBoxUsername.TabIndex = 9;
@@ -137,7 +138,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(259, 21);
+            this.label1.Location = new System.Drawing.Point(20, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 10;
@@ -146,7 +147,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(251, 47);
+            this.label2.Location = new System.Drawing.Point(12, 167);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 11;
@@ -155,7 +156,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(242, 76);
+            this.label3.Location = new System.Drawing.Point(3, 189);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 12;
@@ -163,7 +164,7 @@
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Location = new System.Drawing.Point(358, 99);
+            this.buttonConnect.Location = new System.Drawing.Point(67, 228);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(118, 28);
             this.buttonConnect.TabIndex = 13;
@@ -175,11 +176,21 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // labelSatus
+            // 
+            this.labelSatus.AutoSize = true;
+            this.labelSatus.Location = new System.Drawing.Point(64, 23);
+            this.labelSatus.Name = "labelSatus";
+            this.labelSatus.Size = new System.Drawing.Size(112, 13);
+            this.labelSatus.TabIndex = 14;
+            this.labelSatus.Text = "Status: not connected";
+            // 
             // MainChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 490);
+            this.ClientSize = new System.Drawing.Size(1020, 504);
+            this.Controls.Add(this.labelSatus);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -220,5 +231,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label labelSatus;
     }
 }

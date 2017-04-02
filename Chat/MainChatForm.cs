@@ -53,7 +53,7 @@ namespace Chat
                         string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
                         userlist = users.Split(' ').ToList();
                         listBoxUsers.DataSource = userlist;
-                        
+                        labelSatus.Text = "Status: connected";
                     }
                     if (message.Contains("JOIN") || message.Contains("QUIT") || message.Contains("NICK"))
                     {
@@ -128,7 +128,8 @@ namespace Chat
             else
             {
                 richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "You are not connected yet!" + Environment.NewLine);
-            }        
+            }
+            labelSatus.Text = "Status: not connected";        
         }
 
         private void richTextBoMessage_KeyPress(object sender, KeyPressEventArgs e)
@@ -156,6 +157,7 @@ namespace Chat
         private void buttonConnect_Click(object sender, EventArgs e)
         {
             richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Connecting..." + Environment.NewLine);
+            labelSatus.Text = "Status: connecting...";
             if (client.Connected)
             {
                 client.Disconnect();
