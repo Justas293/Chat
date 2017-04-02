@@ -46,18 +46,22 @@ namespace Chat
             {
                 while((message = await client.ReadMessageAsync()) != null)
                 {
-                    //richTextBoxChat.AppendText(message + Environment.NewLine);
+                    richTextBoxChat.AppendText(message + Environment.NewLine);
                     if (message.Contains("@ #" + client.channel + " :"))
                     {
                         string[] delimiter = new string[] { $"@ #{client.channel} :" };
                         string users = message.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)[1];
                         userlist = users.Split(' ').ToList();
                         listBoxUsers.DataSource = userlist;
-                        richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "Connected!" + Environment.NewLine);
+                        
                     }
-                    if (message.Contains("JOIN") || message.Contains("QUIT"))
+                    if (message.Contains("JOIN") || message.Contains("QUIT") || message.Contains("NICK"))
                     {
                         client.GetNames();
+                    }
+                    if (message.Contains("PING"))
+                    {
+                        client.PongServer(message);
                     }
                     else if (message.Contains("PRIVMSG " + client.userName + " :"))
                     {
@@ -163,6 +167,7 @@ namespace Chat
             }
             client.GetNames();
             var c = Runchat();
+            
         }
 
         private void buttonWhisper_Click(object sender, EventArgs e)

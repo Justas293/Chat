@@ -15,7 +15,6 @@ namespace Chat
     {
         private TcpClient tcpClient;
         private StreamReader reader;
-        private StreamReader reader2;
         private StreamWriter writer;
 
         public string userName { get; set; }
@@ -42,7 +41,6 @@ namespace Chat
 
                 tcpClient = new TcpClient(ip, port);
                 reader = new StreamReader(tcpClient.GetStream());
-                reader2 = new StreamReader(tcpClient.GetStream());
                 writer = new StreamWriter(tcpClient.GetStream());
 
                 writer.WriteLine("PASS " + this.password + Environment.NewLine +
@@ -105,7 +103,9 @@ namespace Chat
 
         public void ChangeUserName(string username)
         {
-
+            this.userName = userName;
+            writer.WriteLine("NICK " + username);
+            writer.Flush();
         }
 
         public void SendPrivateMessage(string username, string message)
@@ -118,14 +118,16 @@ namespace Chat
             return reader.ReadLineAsync();
         }
 
-        public string ReadMessage()
-        {
-            return reader2.ReadLine();
-        }
-
         public void GetNames()
         {
             writer.WriteLine("NAMES #" + this.channel);
+            writer.Flush();
+        }
+
+        public void PongServer(string message)
+        {
+            string pongMsg = message.Split(':')[1];
+            writer.WriteLine("PONG " + pongMsg);
             writer.Flush();
         }
 
