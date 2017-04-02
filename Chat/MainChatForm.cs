@@ -29,7 +29,6 @@ namespace Chat
         public MainChatForm()
         {
             InitializeComponent();
-            
         }
 
         private void MainChatForm_Load(object sender, EventArgs e)
@@ -97,12 +96,6 @@ namespace Chat
         {
             client.SendChatMessage(richTextBoMessage.Text);
             richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "<" + client.userName + ">" + ": " + message + Environment.NewLine);
-        }
-
-        private void GetUserList()
-        {
-            //writer.WriteLine("NAMES #" + channel);
-            //writer.Flush();
         }
 
         private void Reconnect()
@@ -193,7 +186,6 @@ namespace Chat
                 Thread t = new Thread(() => privateChat.ShowDialog());
                 t.Start();
             }
-            
         }
 
         private void MainChatForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -202,7 +194,6 @@ namespace Chat
             {
                 client.Disconnect();
             }
-            
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -233,7 +224,6 @@ namespace Chat
             {
                 richTextBoxChat.AppendText("[" + DateTime.Now.ToString("hh:mm") + "]" + "You are not connected to the server!" + Environment.NewLine);
             }
-            
         }
 
         private void buttonJoinChannel_Click(object sender, EventArgs e)
