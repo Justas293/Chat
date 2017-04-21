@@ -19,7 +19,7 @@ namespace Chat
     {
         #region Variables
         #region pass
-        private string password = "oauth:740navv2c22dgjoffxwjb3r6w93jer";
+        private string password = "";
         #endregion
 
         IRCClient client;
